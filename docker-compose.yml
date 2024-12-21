@@ -1,9 +1,10 @@
 services:
-  app:
+  web:
     build:
       context: .
       target: ${ENVIRONMENT}
     platform: linux/amd64
+    container_name: coldstart
     environment:
       - DJANGO_SECRET_KEY=${DJANGO_SECRET_KEY}
       - DJANGO_DEBUG=${DJANGO_DEBUG}
