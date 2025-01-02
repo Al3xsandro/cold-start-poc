@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "movies",
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -70,8 +71,8 @@ AUTHENTICATION_BACKENDS = [
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE" : [
-            'profile',
-            'email'
+            "profile",
+            "email"
         ],
         "APP": {
             "client_id": os.environ['CLIENT_ID'],
@@ -161,3 +162,5 @@ STATICFILES_DIRS = [BASE_DIR / "static"]  # Add this line
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
