@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+    @apply h-full;
+  }
+  
+  body {
+    @apply h-full;
+  }
+  
+  ::-webkit-scrollbar {
+    @apply w-[6px] h-[6px];
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-700 border-none;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-300 rounded-[3px];
+  }

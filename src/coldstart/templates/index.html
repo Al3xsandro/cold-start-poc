@@ -1,4 +1,5 @@
 {% load static %}
+{% load socialaccount %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,45 +11,16 @@
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
 </head>
 <body>
-    <main class="max-w-[1440] p-10 h-full">
-        <h1 class="text-3xl font-bold">Minha lista </h1>
-        <div class="carousel rounded-box">
-            <div class="carousel-item">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.webp"
-                alt="Burger" />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.webp"
-                alt="Burger" />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.webp"
-                alt="Burger" />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1494253109108-2e30c049369b.webp"
-                alt="Burger" />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.webp"
-                alt="Burger" />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1559181567-c3190ca9959b.webp"
-                alt="Burger" />
-            </div>
-            <div class="carousel-item">
-              <img
-                src="https://img.daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.webp"
-                alt="Burger" />
-            </div>
-          </div>
-    </main>
+    <div class="relative min-w-full h-full bg-gray-800">
+      <div class="max-w-[1440px] min-h-full mx-auto px-3 p-5">
+        {% if user.is_authenticated %}
+        <div>
+            <h1 class="text-3xl font-bold">Escolha títulos para sua lista {{user.username}}</h1>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+        {% else %}
+            <a href="{% provider_login_url 'google' %}">Login with Google</a>
+        {% endif %}
+    </div>
 </body>
 </html>

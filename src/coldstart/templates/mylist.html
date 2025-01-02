@@ -1,15 +1,37 @@
 {% load static %}
+{% load socialaccount %}
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minha lista</title>
+    <title>Inicio</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
 </head>
 <body>
-    <h1>Minha lista</h1>
+    <div class="relative min-w-full h-full bg-gray-800">
+      <div class="max-w-[1440px] min-h-full mx-auto px-3 p-5">
+        {% if user.is_authenticated %}
+        <div>
+            <h1 class="text-3xl font-bold">Minha lista</h1>
+            <p>Welcome. You are logged in as {{user.username}} </p>
+        </div>
+        <div>
+            {% if movies %}
+            <ul>
+                {% for movie in movies %}
+                    <li>{{ movie.movie_name }} (Added on: {{ movie.added_on|date:"F j, Y" }})</li>
+                {% endfor %}
+            </ul>
+            {% else %}
+                <p>You have not added any movies yet.</p>
+            {% endif %}
+        </div>
+        {% else %}
+            <a href="{% provider_login_url 'google' %}">Login with Google</a>
+        {% endif %}
+    </div>
 </body>
 </html>
