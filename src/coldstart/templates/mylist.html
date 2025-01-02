@@ -13,7 +13,6 @@
 <body>
     <div class="relative min-w-full h-full bg-gray-800">
       <div class="max-w-[1440px] min-h-full mx-auto px-3 p-5">
-        {% if user.is_authenticated %}
         <div>
             <h1 class="text-3xl font-bold">Minha lista</h1>
             <p>Welcome. You are logged in as {{user.username}} </p>
@@ -29,9 +28,6 @@
                 <p>You have not added any movies yet.</p>
             {% endif %}
         </div>
-        {% else %}
-            <a href="{% provider_login_url 'google' %}">Login with Google</a>
-        {% endif %}
     </div>
 </body>
 </html>

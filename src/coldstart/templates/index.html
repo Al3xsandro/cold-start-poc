@@ -13,14 +13,10 @@
 <body>
     <div class="relative min-w-full h-full bg-gray-800">
       <div class="max-w-[1440px] min-h-full mx-auto px-3 p-5">
-        {% if user.is_authenticated %}
         <div>
             <h1 class="text-3xl font-bold">Escolha títulos para sua lista {{user.username}}</h1>
             <a href="{% url 'logout' %}">Logout</a>
         </div>
-        {% else %}
-            <a href="{% provider_login_url 'google' %}">Login with Google</a>
-        {% endif %}
     </div>
 </body>
 </html>
