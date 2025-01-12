@@ -78,18 +78,45 @@ def recommend_movies(user):
     ]
     df_user_list["genre_ids"] = df_user_list["genre_ids"].astype(str)
 
-    # criar vetores para o sklearn calcular a similaridade
+    # criar vetores para o sklearn calcular a similaridade de gêneros
     vectorizer = CountVectorizer(token_pattern=r"[^,]+", binary=True)
     genre_matrix = vectorizer.fit_transform(df_user_list["genre_ids"])
+
+    # Adicionar coluna para o ano de lançamento e normalizar
+    df_user_list["release_year"] = pd.to_datetime(df_user_list["release_date"]).dt.year
+    max_year = df_user_list["release_year"].max()
+    min_year = df_user_list["release_year"].min()
+    df_user_list["normalized_release_year"] = (
+        df_user_list["release_year"] - min_year
+    ) / (max_year - min_year)
 
     liked_movies = df_user_list[
         (df_user_list["rating"] == "LIKE") & (df_user_list["user_id"] == user_id)
     ]
     if not liked_movies.empty:
+        # Similaridade de gêneros
         liked_genres = vectorizer.transform(liked_movies["genre_ids"])
-        similarity_scores = cosine_similarity(genre_matrix, liked_genres).mean(axis=1)
+        genre_similarity_scores = cosine_similarity(genre_matrix, liked_genres).mean(
+            axis=1
+        )
+
+        # Similaridade de datas
+        liked_years = liked_movies["normalized_release_year"].values
+        date_similarity_scores = 1 - (
+            df_user_list["normalized_release_year"].apply(
+                lambda x: abs(x - liked_years).mean()
+            )
+        )
+
+        # Combinar similaridade de gêneros e datas com pesos
+        genre_weight = 0.8
+        date_weight = 0.2
+        similarity_scores = (
+            genre_weight * genre_similarity_scores
+            + date_weight * date_similarity_scores
+        )
     else:
-        # caso o usuário não tenha marcado nada como "gostei", definir similaridade padrao
+        # caso o usuário não tenha marcado nada como "gostei", definir similaridade padrão
         similarity_scores = [0] * len(df_user_list["genre_ids"])
 
     df_user_list["genre_similarity"] = similarity_scores
@@ -99,20 +126,30 @@ def recommend_movies(user):
     # 2. Similaridade de gêneros
     # 3. vote_average
     # 4. priority
-    df_user_list = df_user_list.sort_values(
-        by=["is_user", "genre_similarity", "vote_average", "priority"],
-        ascending=[False, False, False, True],
+    recommend_movies = (
+        df_user_list.sort_values(
+            by=["is_user", "genre_similarity", "vote_average", "priority"],
+            ascending=[False, False, False, True],
+        )
+        .drop_duplicates(subset=["movie_id"])
+        .loc[
+            :,
+            ["user_id", "title", "rating", "genre_ids", "vote_average", "poster_path"],
+        ]
+        .to_dict(orient="records")
     )
 
-    df_user_list = df_user_list.loc[
-        :,
-        [
-            "user_id",
-            "title",
-            "rating",
-            "genre_ids",
-            "vote_average",
-        ],
-    ]
+    voted_movies = (
+        df_user_list.sort_values(
+            by=["vote_average"],
+            ascending=[False],
+        )
+        .drop_duplicates(subset=["movie_id"])
+        .loc[
+            :,
+            ["user_id", "title", "rating", "genre_ids", "vote_average", "poster_path"],
+        ]
+        .to_dict(orient="records")
+    )
 
-    return df_user_list.to_dict(orient="records")
+    return recommend_movies, voted_movies
