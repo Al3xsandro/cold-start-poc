@@ -49,7 +49,7 @@ function getMovies() {
     function toggleMovie(movieId) {
         const saveButton = document.getElementById('saveButton');
 
-        if (selectedMovies.includes(movieId)) {
+        if (selectedMovies.includes(movieId)) { 
             selectedMovies = selectedMovies.filter(id => id !== movieId);
         } else {
             selectedMovies.push(movieId);
@@ -60,12 +60,18 @@ function getMovies() {
 
     async function submitMovies() {
         const selectedGenres = new Set();
+        const favorites = new Set();
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const buttonText = document.getElementById("buttonText");
+        buttonText.innerText = "Carregando...";
+        NProgress.start();
 
         selectedMovies.forEach(movieId => {
             const movie = movies.find(m => m.id === movieId);
             if (movie) {
                 movie.genre_ids.forEach(genreId => selectedGenres.add(genreId));
+                favorites.add(movie.id);
             }
         });
 
@@ -77,7 +83,8 @@ function getMovies() {
                     'X-CSRFToken': csrfToken
                 },
                 body: JSON.stringify({
-                    genres: Array.from(selectedGenres)
+                    genres: Array.from(selectedGenres),
+                    favorites: Array.from(favorites)
                 })
             });
 
@@ -85,10 +92,13 @@ function getMovies() {
                 window.location.href = "mylist";
             } else {
                 alert('Algo deu errado.');
+                setTimeout(function () { NProgress.done(); $('.fade').removeClass('out'); }, 1000);
             }
         } catch (error) {
             console.error('Error:', error);
             alert('Algo deu errado.');
+        } finally {
+            setTimeout(function () { NProgress.done(); $('.fade').removeClass('out'); }, 1000);
         }
     }
 
