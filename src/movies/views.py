@@ -6,35 +6,56 @@ import requests
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
+
 # https://developer.themoviedb.org/reference/discover-movie
 
 API_KEY = "20b8ac581ae40eadf1488dfcda82471c"
 BASE_URL = "https://api.themoviedb.org/3"
 
 
-def get_movies(genres_ids=None):
+def fetch_movie_details(movie_id, api_key, language="pt-BR"):
+    movie_details_endpoint = f"{BASE_URL}/movie/{movie_id}"
+    params = {"api_key": api_key, "language": language}
+    response = requests.get(movie_details_endpoint, params=params)
+
+    movie_data = response.json()
+
+    genres = movie_data.get("genres", [])
+    movie_data["genre_ids"] = [genre["id"] for genre in genres]
+
+    movie_data.pop("genres", None)
+
+    return movie_data
+
+
+def get_movies(genre_ids=None, favorites=None):
+    """Fetches movies based on genres and favorites."""
+    # Fetch filtered movies
     endpoint = f"{BASE_URL}/discover/movie"
     params = {
         "api_key": API_KEY,
         "language": "pt-BR",
         "sort_by": "vote_average.desc",
-        "vote_count.gte": 100,
+        "vote_count.gte": 1000,
     }
-
-    if genres_ids:
-        params["with_genres"] = genres_ids
+    if genre_ids:
+        params["with_genres"] = genre_ids
 
     response = requests.get(endpoint, params=params)
-    movies = response.json().get("results", [])
+    filtered_movies = response.json().get("results", [])
 
-    return movies
+    # Fetch favorite movies
+    favorite_movies = [
+        fetch_movie_details(movie_id, API_KEY)
+        for movie_id in favorites or []
+        if fetch_movie_details(movie_id, API_KEY) is not None
+    ]
+
+    return favorite_movies + filtered_movies
 
 
-from .models import MyMovieList
-
-
-def create_user_list(user, selected_genres):
-    movies = get_movies(selected_genres)
+def create_user_list(user, selected_genres, favorites):
+    movies = get_movies(selected_genres, favorites)
 
     movie_instances = []
     for movie in movies:
@@ -48,12 +69,15 @@ def create_user_list(user, selected_genres):
                 overview=movie.get("overview", ""),
                 release_date=movie.get("release_date", "1900-01-01"),
                 user=user,
+                rating="LIKE" if movie["id"] in favorites else "NONE",
             )
         )
 
-    MyMovieList.objects.bulk_create(movie_instances)
-
-    return f"{len(movie_instances)} movies saved to the database."
+    if movie_instances:
+        MyMovieList.objects.bulk_create(movie_instances)
+        return f"{len(movie_instances)} movies saved to the database."
+    else:
+        return "No new movies to add."
 
 
 def recommend_movies(user):
@@ -152,4 +176,14 @@ def recommend_movies(user):
         .to_dict(orient="records")
     )
 
-    return recommend_movies, voted_movies
+    my_movies = (
+        df_user_list[df_user_list["rating"] == "LIKE"]
+        .drop_duplicates(subset=["movie_id"])
+        .loc[
+            :,
+            ["user_id", "title", "rating", "genre_ids", "vote_average", "poster_path"],
+        ]
+        .to_dict(orient="records")
+    )
+
+    return recommend_movies, voted_movies, my_movies
