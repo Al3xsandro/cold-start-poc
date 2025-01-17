@@ -6,6 +6,7 @@ from django.http import JsonResponse
 import json
 
 from movies.views import recommend_movies, create_user_list
+from movies.models import MyMovieList
 
 
 @login_required
@@ -65,5 +66,27 @@ def submit_genres(request):
     return JsonResponse({"error": "Invalid request method"}, status=405)
 
 
-def rate_movie():
-    return
+def rate_movie(request, movie_id):
+    if request.method == "GET":
+        try:
+            user = request.user
+            rating_type = request.GET.get("type")
+
+            movie = MyMovieList.objects.filter(movie_id=movie_id, user=user).first()
+
+            if not movie:
+                MyMovieList.objects.create(movie_id=movie_id, user=user)
+                message = (
+                    "Filme adicionado à sua lista e classificado como '{}'.".format(
+                        rating_type
+                    )
+                )
+            else:
+                movie.rating = rating_type
+                movie.save()
+                message = "Classificação atualizada para '{}'.".format(rating_type)
+
+            return JsonResponse({"message": message})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return JsonResponse({"error": "Invalid request method"}, status=405)

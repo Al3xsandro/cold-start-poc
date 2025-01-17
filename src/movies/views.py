@@ -158,7 +158,15 @@ def recommend_movies(user):
         .drop_duplicates(subset=["movie_id"])
         .loc[
             :,
-            ["user_id", "title", "rating", "genre_ids", "vote_average", "poster_path"],
+            [
+                "movie_id",
+                "user_id",
+                "title",
+                "rating",
+                "genre_ids",
+                "vote_average",
+                "poster_path",
+            ],
         ]
         .to_dict(orient="records")
     )
@@ -171,17 +179,32 @@ def recommend_movies(user):
         .drop_duplicates(subset=["movie_id"])
         .loc[
             :,
-            ["user_id", "title", "rating", "genre_ids", "vote_average", "poster_path"],
+            [
+                "movie_id",
+                "user_id",
+                "title",
+                "rating",
+                "genre_ids",
+                "vote_average",
+                "poster_path",
+            ],
         ]
         .to_dict(orient="records")
     )
 
     my_movies = (
-        df_user_list[df_user_list["rating"] == "LIKE"]
-        .drop_duplicates(subset=["movie_id"])
+        liked_movies.drop_duplicates(subset=["movie_id"])
         .loc[
             :,
-            ["user_id", "title", "rating", "genre_ids", "vote_average", "poster_path"],
+            [
+                "movie_id",
+                "user_id",
+                "title",
+                "rating",
+                "genre_ids",
+                "vote_average",
+                "poster_path",
+            ],
         ]
         .to_dict(orient="records")
     )

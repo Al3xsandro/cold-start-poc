@@ -12,13 +12,12 @@
   <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   <link rel="stylesheet" href="{% static 'css/nprogress.css' %}">
+  <script src="{% static 'js/rate.js' %}"></script>
 </head>
 
 <body>
   <div class="relative min-w-full min-h-screen bg-gray-950 overflow-hidden">
     <div class="max-w-[1440px] h-full mx-auto px-3 p-8 text-white flex flex-col justify-center items-center gap-5">
-      
-      
       <!--Minha Lista -->
       <div class="flex flex-col mt-5 space-y-4">
         <span class="text-2xl font-bold">Minha Lista</span>
@@ -28,150 +27,189 @@
               {% if my_movies %}
               {% for movie in my_movies %}
               <div class="embla__slide">
-                <div class="relative flex flex-col items-start space-y-2 gap-5">
-                  <label class="relative block cursor-pointer w-full h-60">
+                <div class="relative flex flex-col items-center space-y-2 gap-5 bg-gray-900 rounded-sm group">
+                  <label class="relative block cursor-pointer w-full h-60 overflow-hidden">
                     <div class="peer-checked:border peer-checked:border-white rounded-sm w-full h-full relative">
-                      <img src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" alt="{{ movie.title }} poster"
-                        class="w-full h-full object-cover rounded-md shadow-md" />
+                      <img src="https://image.tmdb.org/t/p/w780/{{ movie.poster_path }}"
+                        alt="{{ movie.title }} poster" class="w-full h-full object-cover rounded-md shadow-md" />
                     </div>
-                  </label>
-                  <div class="flex flex-col justify-center items-center gap-2 mt-4">
-                    <h2 class="text-lg font-semibold truncate text-center">{{ movie.title }}</h2>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-              {% else %}
-              <p>You have not added any movies yet.</p>
-              {% endif %}
-            </div>
-            <div class="embla__controls">
-              <div class="embla__buttons">
-                <button class="embla__button embla__button--prev" type="button" aria-label="Previous">
-                  <svg class="embla__button__svg" viewBox="0 0 532 532">
-                    <path fill="currentColor"
-                      d="M355.66 11.354c13.793-13.805 36.208-13.805 50.001 0 13.785 13.804 13.785 36.238 0 50.034L201.22 266l204.442 204.61c13.785 13.805 13.785 36.239 0 50.044-13.793 13.796-36.208 13.796-50.002 0a5994246.277 5994246.277 0 0 0-229.332-229.454 35.065 35.065 0 0 1-10.326-25.126c0-9.2 3.393-18.26 10.326-25.2C172.192 194.973 332.731 34.31 355.66 11.354Z">
-                    </path>
-                  </svg>
-                </button>
-                <button class="embla__button embla__button--next" type="button" aria-label="Next">
-                  <svg class="embla__button__svg" viewBox="0 0 532 532">
-                    <path fill="currentColor"
-                      d="M176.34 520.646c-13.793 13.805-36.208 13.805-50.001 0-13.785-13.804-13.785-36.238 0-50.034L330.78 266 126.34 61.391c-13.785-13.805-13.785-36.239 0-50.044 13.793-13.796 36.208-13.796 50.002 0 22.928 22.947 206.395 206.507 229.332 229.454a35.065 35.065 0 0 1 10.326 25.126c0 9.2-3.393 18.26-10.326 25.2-45.865 45.901-206.404 206.564-229.332 229.52Z">
-                    </path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-        </div>
-      </div>
-
-      <!-- Para Você -->
-      <div class="flex flex-col justify-center mt-5 space-y-4">
-        <span class="text-2xl font-bold">Para você</span>
-        <div class="embla">
-          <div class="embla__viewport">
-            <div class="embla__container">
-              {% if recommended_movies %}
-              {% for movie in recommended_movies %}
-              <div class="embla__slide">
-                <div class="relative flex flex-col items-center space-y-2 gap-5">
-                  <label class="relative block cursor-pointer w-full h-60">
-                    <div class="peer-checked:border peer-checked:border-white rounded-sm w-full h-full relative">
-                      <img src="https://image.tmdb.org/t/p/w780/{{ movie.poster_path }}" alt="{{ movie.title }} poster"
-                        class="w-full h-full object-cover rounded-md shadow-md" />
-                    </div>
-                  </label>
-                  <div class="flex flex-col justify-center items-center gap-2 mt-4">
-                    <h2 class="text-lg font-semibold truncate text-center">{{ movie.title }}</h2>
-                  </div>
-                </div>
-              </div>
-              {% endfor %}
-              {% else %}
-              <p>You have not added any movies yet.</p>
-              {% endif %}
-            </div>
-            <div class="embla__controls">
-              <div class="embla__buttons">
-                <button class="embla__button embla__button--prev" type="button" aria-label="Previous">
-                  <svg class="embla__button__svg" viewBox="0 0 532 532">
-                    <path fill="currentColor"
-                      d="M355.66 11.354c13.793-13.805 36.208-13.805 50.001 0 13.785 13.804 13.785 36.238 0 50.034L201.22 266l204.442 204.61c13.785 13.805 13.785 36.239 0 50.044-13.793 13.796-36.208 13.796-50.002 0a5994246.277 5994246.277 0 0 0-229.332-229.454 35.065 35.065 0 0 1-10.326-25.126c0-9.2 3.393-18.26 10.326-25.2C172.192 194.973 332.731 34.31 355.66 11.354Z">
-                    </path>
-                  </svg>
-                </button>
-                <button class="embla__button embla__button--next" type="button" aria-label="Next">
-                  <svg class="embla__button__svg" viewBox="0 0 532 532">
-                    <path fill="currentColor"
-                      d="M176.34 520.646c-13.793 13.805-36.208 13.805-50.001 0-13.785-13.804-13.785-36.238 0-50.034L330.78 266 126.34 61.391c-13.785-13.805-13.785-36.239 0-50.044 13.793-13.796 36.208-13.796 50.002 0 22.928 22.947 206.395 206.507 229.332 229.454a35.065 35.065 0 0 1 10.326 25.126c0 9.2-3.393 18.26-10.326 25.2-45.865 45.901-206.404 206.564-229.332 229.52Z">
-                    </path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-     <!-- Mais Votados -->
-      <div class="flex flex-col justify-center mt-5 space-y-4">
-        <span class="text-2xl font-bold">Mais votados</span>
-        <div class="embla">
-          <div class="embla__viewport">
-            <div class="embla__container">
-              {% if voted_movies %}
-                {% for movie in voted_movies %}
-                  <div class="embla__slide">
-                    <div class="relative flex flex-col items-center space-y-2 gap-5">
-                      <label class="relative block cursor-pointer w-full h-60">
-                        <div class="peer-checked:border peer-checked:border-white rounded-sm w-full h-full relative">
-                          <img src="https://image.tmdb.org/t/p/w780/{{ movie.poster_path }}" alt="{{ movie.title }} poster"
-                            class="w-full h-full object-cover rounded-md shadow-md" />
-                        </div>
-                      </label>
-                      <div class="flex flex-col justify-center items-center gap-2 mt-4">
-                        <h2 class="text-lg font-semibold truncate text-center">{{ movie.title }}</h2>
+                    <div
+                      class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4 opacity-0 translate-y-full group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                      <h2 class="text-base font-semibold text-white truncate text-center break-words">
+                        {{ movie.title }}
+                      </h2>
+                      <div class="flex items-center justify-center gap-4 mt-2">
+                        <button onclick="likeMovie({{ movie.movie_id }})"
+                          class="bg-green-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
+                          Gostei
+                        </button>
+                        <button onclick="dislikeMovie({{ movie.movie_id }})"
+                          class="bg-red-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
+                          Não gostei
+                        </button>
                       </div>
                     </div>
-                  </div>
+                  </label>
+                </div>
+              </div>
               {% endfor %}
               {% else %}
               <p>You have not added any movies yet.</p>
               {% endif %}
             </div>
+            <div class="embla__controls">
+              <div class="embla__buttons">
+                <button class="embla__button embla__button--prev" type="button" aria-label="Previous">
+                  <svg class="embla__button__svg" viewBox="0 0 532 532">
+                    <path fill="currentColor"
+                      d="M355.66 11.354c13.793-13.805 36.208-13.805 50.001 0 13.785 13.804 13.785 36.238 0 50.034L201.22 266l204.442 204.61c13.785 13.805 13.785 36.239 0 50.044-13.793 13.796-36.208 13.796-50.002 0a5994246.277 5994246.277 0 0 0-229.332-229.454 35.065 35.065 0 0 1-10.326-25.126c0-9.2 3.393-18.26 10.326-25.2C172.192 194.973 332.731 34.31 355.66 11.354Z">
+                    </path>
+                  </svg>
+                </button>
+                <button class="embla__button embla__button--next" type="button" aria-label="Next">
+                  <svg class="embla__button__svg" viewBox="0 0 532 532">
+                    <path fill="currentColor"
+                      d="M176.34 520.646c-13.793 13.805-36.208 13.805-50.001 0-13.785-13.804-13.785-36.238 0-50.034L330.78 266 126.34 61.391c-13.785-13.805-13.785-36.239 0-50.044 13.793-13.796 36.208-13.796 50.002 0 22.928 22.947 206.395 206.507 229.332 229.454a35.065 35.065 0 0 1 10.326 25.126c0 9.2-3.393 18.26-10.326 25.2-45.865 45.901-206.404 206.564-229.332 229.52Z">
+                    </path>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="embla__controls">
-            <div class="embla__buttons">
-              <button class="embla__button embla__button--prev" type="button" aria-label="Previous">
-                <svg class="embla__button__svg" viewBox="0 0 532 532">
-                  <path fill="currentColor"
-                    d="M355.66 11.354c13.793-13.805 36.208-13.805 50.001 0 13.785 13.804 13.785 36.238 0 50.034L201.22 266l204.442 204.61c13.785 13.805 13.785 36.239 0 50.044-13.793 13.796-36.208 13.796-50.002 0a5994246.277 5994246.277 0 0 0-229.332-229.454 35.065 35.065 0 0 1-10.326-25.126c0-9.2 3.393-18.26 10.326-25.2C172.192 194.973 332.731 34.31 355.66 11.354Z">
-                  </path>
-                </svg>
-              </button>
-              <button class="embla__button embla__button--next" type="button" aria-label="Next">
-                <svg class="embla__button__svg" viewBox="0 0 532 532">
-                  <path fill="currentColor"
-                    d="M176.34 520.646c-13.793 13.805-36.208 13.805-50.001 0-13.785-13.804-13.785-36.238 0-50.034L330.78 266 126.34 61.391c-13.785-13.805-13.785-36.239 0-50.044 13.793-13.796 36.208-13.796 50.002 0 22.928 22.947 206.395 206.507 229.332 229.454a35.065 35.065 0 0 1 10.326 25.126c0 9.2-3.393 18.26-10.326 25.2-45.865 45.901-206.404 206.564-229.332 229.52Z">
-                  </path>
-                </svg>
-              </button>
+        </div>
+
+        <!-- Para Você -->
+        <div class="flex flex-col justify-center mt-5 space-y-4">
+          <span class="text-2xl font-bold">Para você</span>
+          <div class="embla">
+            <div class="embla__viewport">
+              <div class="embla__container">
+                {% if recommended_movies %}
+                {% for movie in recommended_movies %}
+                <div class="embla__slide">
+                  <div class="relative flex flex-col items-center space-y-2 gap-5 bg-gray-900 rounded-sm group">
+                    <label class="relative block cursor-pointer w-full h-60 overflow-hidden">
+                      <div class="peer-checked:border peer-checked:border-white rounded-sm w-full h-full relative">
+                        <img src="https://image.tmdb.org/t/p/w780/{{ movie.poster_path }}"
+                          alt="{{ movie.title }} poster" class="w-full h-full object-cover rounded-md shadow-md" />
+                      </div>
+                      <div
+                        class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4 opacity-0 translate-y-full group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                        <h2 class="text-base font-semibold text-white truncate text-center break-words">
+                          {{ movie.title }}
+                        </h2>
+                        <div class="flex items-center justify-center gap-4 mt-2">
+                          <button onclick="likeMovie({{ movie.movie_id }})"
+                            class="bg-green-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
+                            Gostei
+                          </button>
+                          <button onclick="dislikeMovie({{ movie.movie_id }})"
+                            class="bg-red-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
+                            Não gostei
+                          </button>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>You have not added any movies yet.</p>
+                {% endif %}
+              </div>
+              <div class="embla__controls">
+                <div class="embla__buttons">
+                  <button class="embla__button embla__button--prev" type="button" aria-label="Previous">
+                    <svg class="embla__button__svg" viewBox="0 0 532 532">
+                      <path fill="currentColor"
+                        d="M355.66 11.354c13.793-13.805 36.208-13.805 50.001 0 13.785 13.804 13.785 36.238 0 50.034L201.22 266l204.442 204.61c13.785 13.805 13.785 36.239 0 50.044-13.793 13.796-36.208 13.796-50.002 0a5994246.277 5994246.277 0 0 0-229.332-229.454 35.065 35.065 0 0 1-10.326-25.126c0-9.2 3.393-18.26 10.326-25.2C172.192 194.973 332.731 34.31 355.66 11.354Z">
+                      </path>
+                    </svg>
+                  </button>
+                  <button class="embla__button embla__button--next" type="button" aria-label="Next">
+                    <svg class="embla__button__svg" viewBox="0 0 532 532">
+                      <path fill="currentColor"
+                        d="M176.34 520.646c-13.793 13.805-36.208 13.805-50.001 0-13.785-13.804-13.785-36.238 0-50.034L330.78 266 126.34 61.391c-13.785-13.805-13.785-36.239 0-50.044 13.793-13.796 36.208-13.796 50.002 0 22.928 22.947 206.395 206.507 229.332 229.454a35.065 35.065 0 0 1 10.326 25.126c0 9.2-3.393 18.26-10.326 25.2-45.865 45.901-206.404 206.564-229.332 229.52Z">
+                      </path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mais Votados -->
+        <div class="flex flex-col justify-center mt-5 space-y-4">
+          <span class="text-2xl font-bold">Mais votados</span>
+          <div class="embla">
+            <div class="embla__viewport">
+              <div class="embla__container">
+                {% if voted_movies %}
+                {% for movie in voted_movies %}
+                <div class="embla__slide">
+                  <div class="relative flex flex-col items-center space-y-2 gap-5 bg-gray-900 rounded-sm group">
+                    <label class="relative block cursor-pointer w-full h-60 overflow-hidden">
+                      <div class="peer-checked:border peer-checked:border-white rounded-sm w-full h-full relative">
+                        <img src="https://image.tmdb.org/t/p/w780/{{ movie.poster_path }}"
+                          alt="{{ movie.title }} poster" class="w-full h-full object-cover rounded-md shadow-md" />
+                      </div>
+                      <div
+                        class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black to-transparent p-4 opacity-0 translate-y-full group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                        <h2 class="text-base font-semibold text-white truncate text-center break-words">
+                          {{ movie.title }}
+                        </h2>
+                        <div class="flex items-center justify-center gap-4 mt-2">
+                          <button onclick="likeMovie({{ movie.movie_id }})"
+                            class="bg-green-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
+                            Gostei
+                          </button>
+                          <button onclick="dislikeMovie({{ movie.movie_id }})"
+                            class="bg-red-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
+                            Não gostei
+                          </button>
+                        </div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p>You have not added any movies yet.</p>
+                {% endif %}
+              </div>
+            </div>
+            <div class="embla__controls">
+              <div class="embla__buttons">
+                <button class="embla__button embla__button--prev" type="button" aria-label="Previous">
+                  <svg class="embla__button__svg" viewBox="0 0 532 532">
+                    <path fill="currentColor"
+                      d="M355.66 11.354c13.793-13.805 36.208-13.805 50.001 0 13.785 13.804 13.785 36.238 0 50.034L201.22 266l204.442 204.61c13.785 13.805 13.785 36.239 0 50.044-13.793 13.796-36.208 13.796-50.002 0a5994246.277 5994246.277 0 0 0-229.332-229.454 35.065 35.065 0 0 1-10.326-25.126c0-9.2 3.393-18.26 10.326-25.2C172.192 194.973 332.731 34.31 355.66 11.354Z">
+                    </path>
+                  </svg>
+                </button>
+                <button class="embla__button embla__button--next" type="button" aria-label="Next">
+                  <svg class="embla__button__svg" viewBox="0 0 532 532">
+                    <path fill="currentColor"
+                      d="M176.34 520.646c-13.793 13.805-36.208 13.805-50.001 0-13.785-13.804-13.785-36.238 0-50.034L330.78 266 126.34 61.391c-13.785-13.805-13.785-36.239 0-50.044 13.793-13.796 36.208-13.796 50.002 0 22.928 22.947 206.395 206.507 229.332 229.454a35.065 35.065 0 0 1 10.326 25.126c0 9.2-3.393 18.26-10.326 25.2-45.865 45.901-206.404 206.564-229.332 229.52Z">
+                    </path>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
-  <script src="{% static 'js/embla.js' %}"></script>
-  <script src="{% static 'js/nprogress.js' %}"></script>
-  <script>
-    const csrfToken = '{{ csrf_token }}';
-    NProgress.start();
-    setTimeout(function() { NProgress.done(); $('.fade').removeClass('out'); }, 1000);
-  </script>
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+    <script src="{% static 'js/embla.js' %}"></script>
+    <script src="{% static 'js/nprogress.js' %}"></script>
+    <script>
+      const csrfToken = '{{ csrf_token }}';
+      NProgress.start();
+      setTimeout(function () { NProgress.done(); $('.fade').removeClass('out'); }, 1000);
+    </script>
 </body>
 
 </html>
