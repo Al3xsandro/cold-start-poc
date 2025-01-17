@@ -3,14 +3,16 @@ import pandas as pd
 
 import requests
 
+import os
+
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
 
 # https://developer.themoviedb.org/reference/discover-movie
 
-API_KEY = "20b8ac581ae40eadf1488dfcda82471c"
-BASE_URL = "https://api.themoviedb.org/3"
+API_KEY = os.environ["TMDB_API_KEY"]
+BASE_URL = os.environ["TMDB_BASE_URL"]
 
 
 def fetch_movie_details(movie_id, api_key, language="pt-BR"):
