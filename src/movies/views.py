@@ -150,63 +150,40 @@ def recommend_movies(user):
     # 2. Similaridade de gêneros
     # 3. vote_average
     # 4. priority
-    recommend_movies = (
-        df_user_list.sort_values(
-            by=["is_user", "genre_similarity", "vote_average", "priority"],
-            ascending=[False, False, False, True],
-        )
-        .drop_duplicates(subset=["movie_id"])
-        .loc[
-            :,
-            [
-                "movie_id",
-                "user_id",
-                "title",
-                "rating",
-                "genre_ids",
-                "vote_average",
-                "poster_path",
-            ],
-        ]
-        .to_dict(orient="records")
+
+    # Processamento dos filmes recomendados
+    recommend_movies = process_movies(
+        df_user_list,
+        sort_columns=["is_user", "genre_similarity", "vote_average", "priority"],
+        ascending_order=[False, False, False, True],
     )
 
-    voted_movies = (
-        df_user_list.sort_values(
-            by=["vote_average"],
-            ascending=[False],
-        )
-        .drop_duplicates(subset=["movie_id"])
-        .loc[
-            :,
-            [
-                "movie_id",
-                "user_id",
-                "title",
-                "rating",
-                "genre_ids",
-                "vote_average",
-                "poster_path",
-            ],
-        ]
-        .to_dict(orient="records")
+    # Processamento dos filmes votados
+    voted_movies = process_movies(
+        df_user_list, sort_columns=["vote_average"], ascending_order=[False]
     )
 
-    my_movies = (
-        liked_movies.drop_duplicates(subset=["movie_id"])
-        .loc[
-            :,
-            [
-                "movie_id",
-                "user_id",
-                "title",
-                "rating",
-                "genre_ids",
-                "vote_average",
-                "poster_path",
-            ],
-        ]
-        .to_dict(orient="records")
-    )
+    # Processamento dos meus filmes
+    my_movies = process_movies(liked_movies, sort_columns=[], ascending_order=[])
 
     return recommend_movies, voted_movies, my_movies
+
+
+def process_movies(df, sort_columns, ascending_order, unique_column="movie_id"):
+    return (
+        df.sort_values(by=sort_columns, ascending=ascending_order)
+        .drop_duplicates(subset=[unique_column])
+        .loc[
+            :,
+            [
+                "movie_id",
+                "user_id",
+                "title",
+                "rating",
+                "genre_ids",
+                "vote_average",
+                "poster_path",
+            ],
+        ]
+        .to_dict(orient="records")
+    )
