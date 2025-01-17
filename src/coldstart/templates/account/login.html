@@ -8,23 +8,24 @@
     <title>Login</title>
     <link rel="stylesheet" href="{% static 'css/tailwind.css' %}">
 </head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="border-b-8 border-grey bg-black/50 bg-blend-color bg-cover bg-[url('static/images/movie-bg.jpg')] h-[100vh] overflow-y-scroll">
-    </div>
-    <div class="bg-white shadow-md rounded-lg p-8 max-w-md w-full">
-        <h1 class="text-2xl font-bold mb-6 text-center">Login</h1>
-        
-        {% load socialaccount %}
-
-        <a href="{% provider_login_url 'google' %}" class="w-full text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-lg flex items-center justify-center mb-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M22.54 10.83H12v3.89h5.96c-.5 1.54-1.62 2.85-3.07 3.59l-.02.09 4.42 3.39.31-.03C21.13 18.58 24 14.97 24 12c0-.4-.02-.79-.06-1.17z"></path>
-                <path d="M12 23c2.55 0 4.69-.84 6.26-2.27l-4.42-3.39c-.94.63-2.14 1.02-3.43 1.02-2.63 0-4.86-1.73-5.66-4.08H.93v2.55C2.5 20.19 6.98 23 12 23z"></path>
-                <path d="M6.34 13.08c-.22-.65-.34-1.33-.34-2.08s.12-1.43.34-2.08V6.38H.93C.34 7.62 0 9.26 0 11c0 1.74.34 3.38.93 4.62l5.41-2.54z"></path>
-                <path d="M12 4.96c1.4 0 2.66.48 3.65 1.41l2.74-2.74C16.69 1.52 14.55 0 12 0 6.98 0 2.5 2.81.93 6.38l5.41 2.55C7.14 6.58 9.37 4.96 12 4.96z"></path>
-            </svg>
-            Entrar com o google
-        </a>
+<body>
+    <div class="bg-movie-bg shadow-lg bg-cover w-full flex items-center justify-center h-screen relative">
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent"></div>
+        <div class="bg-gray-100 drop-shadow-md rounded-lg p-8 max-w-md w-full">
+            <h1 class="text-2xl text-gray-900 font-bold mb-6 text-center">Entrar</h1>
+            
+            {% load socialaccount %}
+    
+            <a href="{% provider_login_url 'google' %}" class="relative w-full text-white bg-red-600 hover:bg-red-500 py-2 px-4 rounded-lg flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M22.54 10.83H12v3.89h5.96c-.5 1.54-1.62 2.85-3.07 3.59l-.02.09 4.42 3.39.31-.03C21.13 18.58 24 14.97 24 12c0-.4-.02-.79-.06-1.17z"></path>
+                    <path d="M12 23c2.55 0 4.69-.84 6.26-2.27l-4.42-3.39c-.94.63-2.14 1.02-3.43 1.02-2.63 0-4.86-1.73-5.66-4.08H.93v2.55C2.5 20.19 6.98 23 12 23z"></path>
+                    <path d="M6.34 13.08c-.22-.65-.34-1.33-.34-2.08s.12-1.43.34-2.08V6.38H.93C.34 7.62 0 9.26 0 11c0 1.74.34 3.38.93 4.62l5.41-2.54z"></path>
+                    <path d="M12 4.96c1.4 0 2.66.48 3.65 1.41l2.74-2.74C16.69 1.52 14.55 0 12 0 6.98 0 2.5 2.81.93 6.38l5.41 2.55C7.14 6.58 9.37 4.96 12 4.96z"></path>
+                </svg>
+                Entrar com o google
+            </a>
+        </div>
     </div>
 </body>
 </html>
