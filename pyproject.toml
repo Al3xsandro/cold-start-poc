@@ -19,6 +19,7 @@ python3-openid = "^3.2.0"
 requests-oauthlib = "^2.0.0"
 cryptography = "^44.0.0"
 scikit-learn = "^1.6.0"
+psycopg2 = "^2.9.10"
 
 
 [build-system]
