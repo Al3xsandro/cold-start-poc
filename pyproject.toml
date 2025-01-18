@@ -3,7 +3,6 @@ name = "coldstart-poc"
 version = "0.1.0"
 description = ""
 authors = ["alex <alexs123655@gmail.com>"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -20,7 +19,6 @@ requests-oauthlib = "^2.0.0"
 cryptography = "^44.0.0"
 scikit-learn = "^1.6.0"
 psycopg2 = "^2.9.10"
-
 
 [build-system]
 requires = ["poetry-core"]
