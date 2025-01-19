@@ -14,13 +14,12 @@ class RatingEnum(Enum):
 
 
 class MyMovieList(models.Model):
-    id = models.IntegerField(primary_key=True)
     movie_id = models.IntegerField()
     title = models.CharField(max_length=255)
-    poster_path = models.CharField(max_length=255)
+    poster_path = models.CharField(max_length=512)
     vote_average = models.FloatField()
-    genre_ids = models.CharField(max_length=255)
-    overview = models.CharField(max_length=255)
+    genre_ids = models.CharField(max_length=512)
+    overview = models.CharField(max_length=1024)
     release_date = models.DateField()
     rating = models.CharField(
         max_length=7,

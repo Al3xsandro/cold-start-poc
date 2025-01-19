@@ -84,7 +84,6 @@ def create_user_list(user, selected_genres, favorites):
 
 def recommend_movies(user):
     user_id = user.id
-
     movies = MyMovieList.objects.all().values()
     df_user_list = pd.DataFrame(data=movies)
 
