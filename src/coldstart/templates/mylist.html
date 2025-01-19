@@ -21,7 +21,7 @@
       <!--Minha Lista -->
       <div class="flex flex-col mt-5 space-y-4">
         <span class="text-2xl font-bold">Minha Lista</span>
-        <div class="embla  w-full flex items-start justify-start">
+        <div class="embla w-full flex items-center justify-start">
           <div class="embla__viewport">
             <div class="embla__container">
               {% if my_movies %}
@@ -38,16 +38,18 @@
                       <h2 class="text-base font-semibold text-white truncate text-center break-words">
                         {{ movie.title }}
                       </h2>
-                      <div class="flex items-center justify-center gap-4 mt-2">
-                        <button onclick="likeMovie({{ movie.movie_id }})"
-                          class="bg-green-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
+                      <div class="flex items-center justify-center gap-4 mt-2" id="{{ movie.id }}-1">
+                        <button
+                          onclick="sendRating({{ movie.id }}, 'LIKE', {{ movie.id }}, 1)"
+                          class="rating-button bg-green-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
                           Gostei
                         </button>
-                        <button onclick="dislikeMovie({{ movie.movie_id }})"
-                          class="bg-red-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
+                        <button
+                          onclick="sendRating({{ movie.id }}, 'DISLIKE', {{ movie.id }}, 1)"
+                          class="rating-button bg-red-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
                           Não gostei
                         </button>
-                      </div>
+                      </div>                  
                     </div>
                   </label>
                 </div>
@@ -98,13 +100,15 @@
                         <h2 class="text-base font-semibold text-white truncate text-center break-words">
                           {{ movie.title }}
                         </h2>
-                        <div class="flex items-center justify-center gap-4 mt-2">
-                          <button onclick="likeMovie({{ movie.movie_id }})"
-                            class="bg-green-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
+                        <div class="flex items-center justify-center gap-4 mt-2" id="{{ movie.id }}-2">
+                          <button
+                            onclick="sendRating({{ movie.movie_id }}, 'LIKE', {{ movie.id }}, 2)"
+                            class="rating-button bg-green-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
                             Gostei
                           </button>
-                          <button onclick="dislikeMovie({{ movie.movie_id }})"
-                            class="bg-red-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
+                          <button
+                            onclick="sendRating({{ movie.movie_id }}, 'DISLIKE', {{ movie.id }}, 2)"
+                            class="rating-button bg-red-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
                             Não gostei
                           </button>
                         </div>
@@ -141,7 +145,8 @@
 
         <!-- Mais Votados -->
         <div class="flex flex-col justify-center mt-5 space-y-4">
-          <span class="text-2xl font-bold">Mais votados</span>
+          <span class="text-2xl f    NProgress.start();
+          ont-bold">Mais votados</span>
           <div class="embla">
             <div class="embla__viewport">
               <div class="embla__container">
@@ -159,13 +164,15 @@
                         <h2 class="text-base font-semibold text-white truncate text-center break-words">
                           {{ movie.title }}
                         </h2>
-                        <div class="flex items-center justify-center gap-4 mt-2">
-                          <button onclick="likeMovie({{ movie.movie_id }})"
-                            class="bg-green-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
+                        <div class="flex items-center justify-center gap-4 mt-2" id="{{ movie.id }}-3">
+                          <button
+                            onclick="sendRating({{ movie.movie_id }}, 'LIKE', {{ movie.id }}, 3)"
+                            class="rating-button bg-green-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-green-600 transition duration-200">
                             Gostei
                           </button>
-                          <button onclick="dislikeMovie({{ movie.movie_id }})"
-                            class="bg-red-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
+                          <button
+                            onclick="sendRating({{ movie.movie_id }}, 'DISLIKE', {{ movie.id }}, 3)"
+                            class="rating-button bg-red-800 text-white px-4 py-2 rounded-md shadow-md hover:bg-red-600 transition duration-200">
                             Não gostei
                           </button>
                         </div>

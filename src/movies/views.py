@@ -177,6 +177,7 @@ def process_movies(df, sort_columns, ascending_order, unique_column="movie_id"):
         .loc[
             :,
             [
+                "id",
                 "movie_id",
                 "user_id",
                 "title",

@@ -1,36 +1,36 @@
-function likeMovie(movie_id) {
-    sendRating(movie_id, "LIKE");
-}
-
-function dislikeMovie(movie_id) {
-    sendRating(movie_id, "DISLIKE");
-}
-
-function sendRating(movie_id, ratingType) {
-    const url = `/rate-movie/${movie_id}/?type=${ratingType}`;
+function sendRating(movie_id, ratingType, containerId, section) {
+    uniqueContainer = `${containerId}-${section}`
+    const container = document.getElementById(uniqueContainer);
+    if (container) {
+        container.innerHTML = `
+        <button class="bg-gray-800 text-white px-4 py-2 rounded-md shadow-md cursor-not-allowed">
+        Avaliado
+        </button>
+        `;
+    }
     
+    const url = `/rate-movie/${movie_id}/?type=${ratingType}`;
+
     fetch(url, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-        },
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     })
-    .then(response => {
+      .then((response) => {
         if (response.ok) {
-            return response.json()
+          return response.json();
         }
         throw new Error("Erro ao enviar avaliação.");
-    })
-    .then(data => {
+      })
+      .then((data) => {
         if (data.message) {
-            alert(data.message)
-            return
+          console.log(data.message);
         } else if (data.error) {
-            alert(data.message)
-            return
+          console.error(data.error);
         }
-    })
-    .catch(error => {
+      })
+      .catch((error) => {
         console.error("Erro ao enviar avaliação:", error);
-    });
-}
+      });
+  }
