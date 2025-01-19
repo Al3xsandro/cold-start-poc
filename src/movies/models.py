@@ -17,10 +17,10 @@ class MyMovieList(models.Model):
     movie_id = models.IntegerField()
     title = models.CharField(max_length=255)
     poster_path = models.CharField(max_length=512)
-    vote_average = models.FloatField()
+    vote_average = models.FloatField(null=True)
     genre_ids = models.CharField(max_length=512)
     overview = models.CharField(max_length=1024)
-    release_date = models.DateField()
+    release_date = models.DateField(null=True)
     rating = models.CharField(
         max_length=7,
         choices=RatingEnum.choices(),

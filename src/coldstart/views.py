@@ -75,18 +75,26 @@ def rate_movie(request, movie_id):
             movie = MyMovieList.objects.filter(movie_id=movie_id, user=user).first()
 
             if not movie:
-                MyMovieList.objects.create(movie_id=movie_id, user=user)
-                message = (
-                    "Filme adicionado à sua lista e classificado como '{}'.".format(
-                        rating_type
+                movie = MyMovieList.objects.filter(movie_id=movie_id).first()
+
+                if movie:
+                    MyMovieList.objects.create(
+                        movie_id=movie.movie_id,
+                        user=user,
+                        title=movie.title,
+                        poster_path=movie.poster_path,
+                        vote_average=movie.vote_average,
+                        genre_ids=movie.genre_ids,
+                        overview=movie.overview,
+                        release_date=movie.release_date,
+                        rating=rating_type,
                     )
-                )
             else:
                 movie.rating = rating_type
                 movie.save()
-                message = "Classificação atualizada para '{}'.".format(rating_type)
 
-            return JsonResponse({"message": message})
+            return JsonResponse({"message": "sucesso"})
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=400)
-    return JsonResponse({"error": "Invalid request method"}, status=405)
+    else:
+        return JsonResponse({"error": "Invalid request method"}, status=405)
